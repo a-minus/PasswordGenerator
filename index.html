@@ -1,34 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
     <title>Password Generator</title>
+  
     <link rel="stylesheet" href="style.css" />
+
+
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
   </head>
   <body>
     <div class="wrapper">
-      <header>
+      <div>
+        <!-- Heading -->
         <h1>Password Generator</h1>
-      </header>
-      <div class="card">
-        <div class="card-header">
-          <h2>Generate a Password</h2>
-        </div>
-        <div class="card-body">
-          <textarea
-            readonly
-            id="password"
-            placeholder="Your Secure Password"
-            aria-label="Generated Password"
-          ></textarea>
-        </div>
-        <div class="card-footer">
-          <button id="generate" class="btn">Generate Password</button>
-        </div>
       </div>
-    </div>
+ <!-- Text input for password length -->
+ <form>
+  <div>
+      <h2>Password Length:</h2>
+      <input type="text" id="passLength">
+  </div>
+</form>
+
+<br>
+
+<!-- Checkboxes for character options -->
+<form class="checkBoxes">
+  <label for="lowerBox">
+      <input type="checkbox" id="lowerBox"><span></span> Lowercase</label>
+  <br>
+  <label for="upperBox">
+      <input type="checkbox" id="upperBox"><span></span> Uppercase</label>
+  <br>
+  <label for="numbersBox">
+      <input type="checkbox" id="numbersBox"><span></span> Numbers</label>
+  <br>
+  <label for="symbolsBox">
+      <input type="checkbox" id="symbolsBox"><span></span> Symbols</label>
+</form>
+
+<br>
+
+<div>
+  <!-- Where generated password prints -->
+  <textarea readonly id="password" placeholder="Your Secure Password"
+      aria-label="Generated Password"></textarea>
+  <br>
+  <!-- Generate Password button -->
+  <button id="generate" class="btn shadow-none" value="passLength">Generate Password</button>
+  <br>
+  <!-- Copy Password button -->
+  <button id="copy" class="btn shadow-none" value="passLength">Copy Password</button>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+      
+     
     <script src="script.js"></script>
   </body>
 </html>
