@@ -6,7 +6,9 @@ $generateBtn.addEventListener("click", writePassword);
 function writePassword() {
   let password = generatePassword();
   let passwordText = document.querySelector("#password");
-  passwordText.value = password;
+  if (password) {
+    passwordText.value = password;
+  }
 }
 
 // Assigning variable to id="copy",  when clicked this will run the copyPassword function
@@ -22,60 +24,63 @@ function copyPassword() {
 
 // Function that generates all needed elements for writing a random password
 function generatePassword() {
+  const lowerBox = document.querySelector('#lowerBox')
+  const upperBox = document.querySelector('#upperBox')
+  const numbersBox = document.querySelector('#numbersBox')
+  const symbolsBox = document.querySelector('#symbolsBox')
 
   // Arrays that will be randomly shuffled
   const lowerCase = "abcdefghijklmnopqrstuvwxyz";
   const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const numbers = "1234567890";
   const symbols = "~`!@#$%^&*()_-+=[]';:?";
+  const validators = []
+  let isValid = true
 
   // Buffer variables as a location for random passwords to be held
-  let randomPassword = "";
+  let passwordOptions = "";
   let finalPassword = "";
 
   // Makes the user input password length turn into a number, versus a string
   const passLength = parseInt(document.getElementById("passLength").value);
-
-  // Is lowercase checkbox activated
-  if (document.getElementById("lowerBox").checked) {
-    for (i = 0; i < passLength; i++) {
-      randomPassword += lowerCase.charAt(Math.floor(Math.random() * lowerCase.length));
-    }
-  }
-
-  // Is uppercase checkbox activated
-  if (document.getElementById("upperBox").checked) {
-    for (i = 0; i < passLength; i++) {
-      randomPassword += upperCase.charAt(Math.floor(Math.random() * upperCase.length));
-    }
-  }
-
-  // Is numbers checkbox activated
-  if (document.getElementById("numbersBox").checked) {
-    for (i = 0; i < passLength; i++) {
-      randomPassword += numbers.charAt(Math.floor(Math.random() * numbers.length));
-    }
-  }
-
-  // Is uppercase checkbox activated
-  if (document.getElementById("symbolsBox").checked) {
-    for (i = 0; i < passLength; i++) {
-      randomPassword += symbols.charAt(Math.floor(Math.random() * symbols.length));
-    }
-  }
-
-  // Randomizes the various checkboxes compiled password, also sets length
-  for (i = 0; i < passLength; i++) {
-    finalPassword += randomPassword.charAt(Math.floor(Math.random() * randomPassword.length));
-  }
-
-  // Sets password length requirement
   if (passLength < 8 || passLength > 128) {
-    finalPassword = "Password must be between 8 and 128 characters";
+    alert("Password must be between 8 and 128 characters")
+    return
   }
+
+  // Validate that each criterion user requested appear at least once in the final password
+  if (lowerBox.checked) {
+    passwordOptions += lowerCase
+    validators.push(/[a-z]/)
+  }
+  if (upperBox.checked) {
+    passwordOptions += upperCase
+    validators.push(/[A-Z]/)
+  }
+  if (numbersBox.checked) {
+    passwordOptions += numbers
+    validators.push(/[0-9]/)
+  }
+  if (symbolsBox.checked) {
+    passwordOptions += symbols
+    validators.push(/[\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\'\;\:\?]/)
+  }
+
+  while (finalPassword.length < passLength) {
+    finalPassword += passwordOptions[Math.floor(Math.random() * passwordOptions.length)]
+  }
+
+  validators.forEach((validator) => {
+    if (!isValid) {
+      return
+    }
+    if (!validator.exec(finalPassword)) {
+      isValid = false
+    }
+  })
 
   // Final result of what running the function will produce
-  return finalPassword;
+  return isValid ? finalPassword : generatePassword()
 
-// Closing tag for generatePassword function  
+// Closing tag for generatePassword function
 }
